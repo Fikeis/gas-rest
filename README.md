@@ -56,7 +56,7 @@ For example we have [collection of cats](https://docs.google.com/a/daspot.ru/spr
 
 ![ScreenShot](https://github.com/dab00/gas-rest/raw/master/scr/scr1.jpg) 
 
-And we have a script, which has been [deployed as a web app](https://script.google.com/macros/s/AKfycbz2MAI6GAncLNuJRBNEYAryYgyqLS_2ZVdWjlJ_Cj5UEVbuGxo/exec) with ID AKfycbz2MAI6GAncLNuJRBNEYAryYgyqLS_2ZVdWjlJ_Cj5UEVbuGxo
+And we have a script like [this one](https://github.com/dab00/gas-rest/blob/master/code.gs), which has been [deployed as a web app](https://script.google.com/macros/s/AKfycbz2MAI6GAncLNuJRBNEYAryYgyqLS_2ZVdWjlJ_Cj5UEVbuGxo/exec) with ID AKfycbz2MAI6GAncLNuJRBNEYAryYgyqLS_2ZVdWjlJ_Cj5UEVbuGxo
 
 Now we can:
 - get all cats:
