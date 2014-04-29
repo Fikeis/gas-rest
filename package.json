@@ -1,0 +1,26 @@
+{
+  "name": "google-rest",
+  "version": "0.0.1",
+  "description": "Translator of REST requests to build RESTful API using Google Apps Script",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.1.0",
+    "body-parser": "^1.0.2",
+    "request": "^2.34.0"
+  }, 
+  "engines": {
+    "node": "0.10.x",
+    "npm": "1.2.x"
+  },
+  "author": {
+    "name": "Anatoly Demidovich",
+    "email": "support@daspot.ru",
+    "url": "http://www.daspot.ru/"
+  },
+  "homepage": "http://www.daspot.ru/"
+}
