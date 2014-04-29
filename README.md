@@ -9,7 +9,7 @@ Overview
 <table>  
   <tr>
     <th>Route</th>
-    <th>HTTP Verb</th>
+    <th>Verb</th>
     <th>Description</th>
   </tr>
   <tr>
