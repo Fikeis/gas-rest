@@ -80,7 +80,3 @@ Now we can:
 ![ScreenShot](https://github.com/dab00/gas-rest/raw/master/scr/scr7.jpg)
 
 ![ScreenShot](https://github.com/dab00/gas-rest/raw/master/scr/scr8.jpg)
-
-TODO
-----------
-+ main page
