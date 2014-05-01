@@ -1,15 +1,9 @@
-var bodyParser = require('body-parser');
-var model      = require('./model');
+var model = require('./model');
+var lang = require('./lang');
 
-module.exports = function Router(app) {
-  if (!(this instanceof Router)) {
-    return new Router(app);
-  }
-
-  app.use(bodyParser());
-
+module.exports = function (app) {
   app.route('/').get(function(req, res) {
-    res.send('This is a main page!');
+    res.render('index', { lang: lang.eng });
   });  
 
   app.route('/api/:script_id/:sheet_name?')
@@ -31,4 +25,6 @@ module.exports = function Router(app) {
       req.remove = true;
       model.get(req, res);
     });
+
+  require('./error')(app);
 };

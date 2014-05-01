@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  h1.cover-heading #{lang.content.header[0]}
+    br
+    | #{lang.content.header[1]}
+  h2 Overview
+  table.table.table-bordered
+      thead
+        tr          
+          th #{lang.overview.header[0]}
+          th #{lang.overview.header[1]}
+          th #{lang.overview.header[2]}
+      tbody
+        each item, i in lang.overview.items
+          tr
+            td #{lang.overview.items[i][0]}
+            td #{lang.overview.items[i][1]}
+            td #{lang.overview.items[i][2]}        
