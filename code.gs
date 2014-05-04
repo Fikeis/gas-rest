@@ -1,68 +1,64 @@
-var sheetId = '1-cAINRLzkmRfo3E698l5sYHbP6m2muiF7R1sPhtVPwA';
+var sheetId = '1rDit6RtL6ohww86sHsE8d66DjncQmKe25dqU9jz0F90'; // spreadsheet ID
+var items = {cats: 'cat'}; // to map item name to collection name
 
-function doGet(e) {
-  var sh = e.parameters.sheet ? SpreadsheetApp.openById(sheetId).getSheetByName(e.parameters.sheet) : SpreadsheetApp.openById(sheetId).getSheets()[0],       
-      data = sh.getDataRange().getValues(),       
-      keys = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
-  if (e.parameters.id) {
-    var req = {data: data, keys: keys, id: +e.parameters.id}
-    if (e.parameters.remove) {
-      req.sheet = sh;
-      req.remove = true;      
-    }
-    objects = getObjectById(req);
+function doGet(e) {  
+  var sh, shName;
+  if (e.parameters.sheet) {
+    sh = SpreadsheetApp.openById(sheetId).getSheetByName(e.parameters.sheet);
+    shName = e.parameters.sheet;
   } else {
-    objects = getObjects(data, keys, e);
+    sh = SpreadsheetApp.openById(sheetId).getSheets()[0];
+    shName = sh.getSheetName();
   }
-  return ContentService.createTextOutput(JSON.stringify(objects)).setMimeType(ContentService.MimeType.JSON);
+  
+  var data = sh.getDataRange().getValues(),       
+      keys = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0], 
+      res = {}, req;
+  if (e.parameters.id) {
+    req = {data: data, keys: keys, id: +e.parameters.id}
+    if (e.parameters.remove) { // remove item
+      req.sheet = sh;
+      req.remove = true;
+    }
+    res[items[shName]] = getObjectById_(req);
+  } else {
+    res[items[shName]] = getObjects_(data, keys, e);
+  }
+  
+  return ContentService.createTextOutput(JSON.stringify(res)).setMimeType(ContentService.MimeType.JSON);
 }
 
-function doPost(e) {
+function doPost(e) {  
   var sh = e.parameters.sheet ? SpreadsheetApp.openById(sheetId).getSheetByName(e.parameters.sheet) : SpreadsheetApp.openById(sheetId).getSheets()[0];
+
+  var res = JSON.parse(e.postData.contents), 
+      key = Object.keys(res)[0], 
+      // if data contains collection's item name
+      hasItemName = Object.keys(items).some(function(i) {return items[i] === key} ), 
+      req =  hasItemName ? res[key] : res;  
+  
   var values = new Values({
     sheet: sh, 
     data: sh.getDataRange().getValues(), 
     keys: sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0], 
-    request:  JSON.parse(e.postData.contents)
+    request: req, 
+    id: +e.parameters.id
   });  
-  var res;
-  if (values.rowIndex) {
-    res = JSON.stringify({id: values.id});
+
+  if (values.rowIndex) { // if item found or created
+    req.id = values.id;
     sh.getRange(values.rowIndex, values.columnIndex, 1, values.width).setValues([values.data]);
-  } else {
-    res = 'undefined';
-  }  
+  } 
   
-  return ContentService.createTextOutput(res).setMimeType(ContentService.MimeType.JSON);
+  return ContentService.createTextOutput(JSON.stringify(res)).setMimeType(ContentService.MimeType.JSON);
 }
 
-function Values(arg) {
+var Values = function (arg) {
   this.columnIndex = 1;
-  this.width = arg.sheet.getLastColumn();
+  this.width = arg.sheet.getLastColumn();    
   this.data = [];
-  getValues.call(this, arg);
   
-  if (arg.request.id) {
-    this.id = arg.request.id;
-    arg.id = +arg.request.id;
-    arg.index = true;
-    this.rowIndex = getObjectById(arg);    
-  } else {
-    this.id = getId(arg.sheet, this.width);
-    this.rowIndex = arg.sheet.getLastRow() + 1;    
-    this.data[0] = this.id;
-  }
-}
-
-function getId(sh, width) {
-  var keys = sh.getRange(1, 1, 1, width).getValues()[0], 
-      lastRow = sh.getLastRow(), 
-      idIndex = keys.indexOf('id') + 1, 
-      ret = sh.getRange(lastRow, idIndex).getValue();
-  return typeof(ret) === 'number' ? ret + 1 : 1;
-}
-
-function getValues(arg) {  
+  // getting data
   var dataKeys = Object.keys(arg.request), 
       shKeys = arg.sheet.getRange(1, 1, 1, this.width).getValues()[0];
   for (var i = 0, len = shKeys.length; i < len; i += 1) {    
@@ -72,20 +68,32 @@ function getValues(arg) {
     }
     this.data.push('');
   }
+  
+  if (arg.id) {
+    this.id = arg.id;    
+    arg.index = true;
+    this.rowIndex = getObjectById_(arg);    
+  } else {
+    var id = arg.sheet.getRange(arg.sheet.getLastRow(), 1).getValue();
+    this.id = typeof(id) === 'number' ? id + 1 : 1;
+    this.rowIndex = arg.sheet.getLastRow() + 1;   
+  }
+  
+  this.data[0] = this.id; // first cell's value = id
 }
 
-function getObjects(data, keys, e) { 
+function getObjects_(data, keys, e) { 
   var objects = [], 
       len = keys.length,       
       i = data.length - 1;      
   while (i > 0) {
-    objects.push(getObject(data[i], keys, len));
+    objects.push(getObject_(data[i], keys, len));
     i -= 1;
   }  
   return objects;
 }
 
-function getObject(arr, keys, len) {
+function getObject_(arr, keys, len) {
   var obj = {};
   for (var i = 0; i < len; i += 1) {
     obj[keys[i]] = arr[i];
@@ -93,18 +101,17 @@ function getObject(arr, keys, len) {
   return obj;
 }
 
-function getObjectById(req) {
-  var i = req.data.length - 1,       
-      idIndex = req.keys.indexOf('id');
+function getObjectById_(req) {
+  var i = req.data.length - 1;
   while (i > 0) {    
-    if (req.data[i][idIndex] === req.id) {
+    if (req.data[i][0] === req.id) {
       if (req.index) {
         return i + 1;
       }
       if (req.remove) {
         req.sheet.deleteRow(i + 1);
       }
-      return getObject(req.data[i], req.keys, req.keys.length);
+      return getObject_(req.data[i], req.keys, req.keys.length);
     }
     i -= 1;
   }  
