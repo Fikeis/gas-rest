@@ -1,15 +1,12 @@
 var request = require('request');
 
-exports.get = function (req, res) {  
+exports.get = function (req, res) {   
   request.get({url: getUrl(req)}, function(err, response, body) {        
     send(err, response, body, res);
   });
 };
 
-exports.post = function post(req, res) {
-  if (req.params.item_id) {
-    req.body.id = req.params.item_id;
-  }  
+exports.post = function post(req, res) {  
   request.post({url: getUrl(req), json: req.body, followAllRedirects: true}, function(err, response, body) {    
     send(err, response, body, res);
   });
@@ -42,5 +39,5 @@ function getUrl(req) {
   if (req.remove) {
     url += '&remove';
   }
-  return url;
+  return url;  
 }
