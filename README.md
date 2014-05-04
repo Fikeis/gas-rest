@@ -52,11 +52,11 @@ Overview
 Profit
 ----------
 
-For example we have [collection of cats](https://docs.google.com/a/daspot.ru/spreadsheets/d/1-cAINRLzkmRfo3E698l5sYHbP6m2muiF7R1sPhtVPwA/edit?pli=1#gid=478504613):
+For example we have [collection of cats](https://docs.google.com/spreadsheets/d/1rDit6RtL6ohww86sHsE8d66DjncQmKe25dqU9jz0F90/edit):
 
 ![ScreenShot](https://github.com/dab00/gas-rest/raw/master/scr/scr1.jpg) 
 
-And we have a script like [this one](https://github.com/dab00/gas-rest/blob/master/code.gs), which has been [deployed as a web app](https://script.google.com/macros/s/AKfycbz2MAI6GAncLNuJRBNEYAryYgyqLS_2ZVdWjlJ_Cj5UEVbuGxo/exec) with ID AKfycbz2MAI6GAncLNuJRBNEYAryYgyqLS_2ZVdWjlJ_Cj5UEVbuGxo
+And we have a script like [this one](https://github.com/dab00/gas-rest/blob/master/code.gs), which has been [deployed as a web app](https://script.google.com/macros/s/AKfycbwEw9l-DeT3Qfv5CmRm60k0RALu2iVIyvyAuaWZbHp2we7xi1E/exec) with ID AKfycbwEw9l-DeT3Qfv5CmRm60k0RALu2iVIyvyAuaWZbHp2we7xi1E
 
 Now we can:
 - get all cats:
@@ -75,8 +75,12 @@ Now we can:
 
 ![ScreenShot](https://github.com/dab00/gas-rest/raw/master/scr/scr6.jpg)
 
-- delete a cat:
+- get cat by id:
 
 ![ScreenShot](https://github.com/dab00/gas-rest/raw/master/scr/scr7.jpg)
 
+- delete a cat:
+
 ![ScreenShot](https://github.com/dab00/gas-rest/raw/master/scr/scr8.jpg)
+
+![ScreenShot](https://github.com/dab00/gas-rest/raw/master/scr/scr9.jpg)
