@@ -28,14 +28,28 @@ function doGet(e) {
   return ContentService.createTextOutput(JSON.stringify(res)).setMimeType(ContentService.MimeType.JSON);
 }
 
-function doPost(e) {  
-  var sh = e.parameters.sheet ? SpreadsheetApp.openById(sheetId).getSheetByName(e.parameters.sheet) : SpreadsheetApp.openById(sheetId).getSheets()[0];
+function doPost(e) {
+  var sh, shName;
+  if (e.parameters.sheet) {
+    sh = SpreadsheetApp.openById(sheetId).getSheetByName(e.parameters.sheet);
+    shName = e.parameters.sheet;
+  } else {
+    sh = SpreadsheetApp.openById(sheetId).getSheets()[0];
+    shName = sh.getSheetName();
+  }
 
-  var res = JSON.parse(e.postData.contents), 
-      key = Object.keys(res)[0], 
+  var data = JSON.parse(e.postData.contents), 
+      key = Object.keys(data)[0], 
       // if data contains collection's item name
       hasItemName = Object.keys(items).some(function(i) {return items[i] === key} ), 
-      req =  hasItemName ? res[key] : res;  
+      req =  hasItemName ? data[key] : data, 
+      res;  
+  if (hasItemName) {
+    res = data;
+  } else { // append item name
+    res = {};
+    res[items[shName]] = data;
+  }
   
   var values = new Values({
     sheet: sh, 
@@ -48,7 +62,7 @@ function doPost(e) {
   if (values.rowIndex) { // if item found or created
     req.id = values.id;
     sh.getRange(values.rowIndex, values.columnIndex, 1, values.width).setValues([values.data]);
-  } 
+  }
   
   return ContentService.createTextOutput(JSON.stringify(res)).setMimeType(ContentService.MimeType.JSON);
 }
