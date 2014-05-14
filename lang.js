@@ -1,6 +1,6 @@
 exports.eng = {
   title: 'GAS-REST - Service for building RESTful API using Google Apps Script', 
-  nav: ['Home', 'GitHub', 'Example'], 
+  nav: ['Home', 'GitHub', 'Sample 1', 'Sample 2'], 
   content: {
     header: ['Build RESTful API', 'using Google Apps Script']
   }, 
