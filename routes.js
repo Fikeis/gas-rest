@@ -18,6 +18,9 @@ module.exports = function (app) {
     .get(function(req, res) {
       model.get(req, res);
     })
+    .post(function(req, res) {
+      model.post(req, res);
+    })
     .put(function(req, res) {
       model.post(req, res);
     })
