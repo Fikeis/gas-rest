@@ -48,7 +48,7 @@ Overview
   </tr>
   <tr>
     <td>/api/:script_id/:sheet_name/:item_id</td>
-    <td>Put</td>
+    <td>Post/Put</td>
     <td>Update item on getSheetByName(:sheet_name)</td>
   </tr>
   <tr>
