@@ -1,13 +1,13 @@
 var request = require('request');
 
-exports.get = function (req, res) {   
-  request.get({url: getUrl(req)}, function(err, response, body) {        
+exports.get = function (req, res) {
+  request.get({url: getUrl(req)}, function(err, response, body) {
     send(err, response, body, res);
   });
 };
 
-exports.post = function post(req, res) {  
-  request.post({url: getUrl(req), json: req.body, followAllRedirects: true}, function(err, response, body) {    
+exports.post = function post(req, res) {
+  request.post({url: getUrl(req), json: req.body, followAllRedirects: true}, function(err, response, body) {
     send(err, response, body, res);
   });
 };
@@ -15,17 +15,17 @@ exports.post = function post(req, res) {
 function send(err, response, body, res) {
   if (err || response.statusCode !== 200) {
     return res.json({error: 'Service not found'});
-  }
+  }  
   if ('application/json' !== response.headers['content-type'].split(';')[0]) {
     return res.json({error: 'GAS error'});
   }
   if (body === 'undefined') {
     return res.json({error: 'Items not found'});
-  }  
+  }
   if (typeof body === 'object') {
     return res.json(body);
   }
-  return res.json(JSON.parse(body));      
+  return res.json(JSON.parse(body));
 }
 
 function getUrl(req) {
