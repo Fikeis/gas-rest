@@ -1,11 +1,7 @@
 gas-rest
 ========
 
-Translator of REST requests to build RESTful API using Google Apps Script hosted on http://rest.daspot.ru
-
-[Example app on Ember.js](https://googledrive.com/host/0B0YcK5KeNe1tMngtVkduNnBpams/gas-rest-ember/)
-
-[Example app on AngularJS](https://googledrive.com/host/0B0YcK5KeNe1tMngtVkduNnBpams/gas-rest-angular/)
+Translator of REST requests to build RESTful API using Google Apps Script
 
 Why
 ----------
