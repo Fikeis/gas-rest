@@ -4,7 +4,8 @@
   "description": "Translator of REST requests to build RESTful API using Google Apps Script",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "author": {
     "name": "Anatoly Demidovich",
